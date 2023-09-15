@@ -1,0 +1,94 @@
+[
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "name": "MedicAddedReport",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "pacientHash",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "reportHash",
+        "type": "string"
+      }
+    ],
+    "name": "medicAddReport",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "pacientHash",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "reportNumber",
+        "type": "uint256"
+      }
+    ],
+    "name": "medicGetReportHash",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "pacientHash",
+        "type": "string"
+      }
+    ],
+    "name": "medicGetReportsForPacient",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "reportCID",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "timestamp",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct LibMedicalStorage.MedicalReport[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

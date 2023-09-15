@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": false,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "outDir": "cache/tsc",
+    "rootDirs": ["./src", "./scripts", "./test"],
+  },
+  "exclude": ["blockchain-shared/**/*.ts", "blockchain-shared/ethereum-abi-types/LibDiamond.ts"],
+  "include": ["./test", "./src", "./scripts", "front-end/src/encryption"],
+  "files": ["./hardhat.config.ts"]
+}

@@ -1,0 +1,15 @@
+[
+  {
+    "inputs": [],
+    "name": "ACCESS_CONTROL_STORAGE_SLOT",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]
