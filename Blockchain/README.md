@@ -1,13 +1,32 @@
-# Sample Hardhat Project
+# Medical Report Access Management
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+This project aims to store reports ID's, preferrably encrypted, and strongly secure access to the data stored on the contract.
 
-Try running some of the following tasks:
+I used a Diamond Proxy pattern.
 
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.js
-```
+There are multiple roles : Owner, Medic and Pacient.
+
+The owner can add medic rights to an address.
+
+The medic can add reports for pacients and read reports they made to a pacient.The reports that the pacient has from other medics are not visible.
+
+The pacient can retrieve all the reports medics uploaded for him.
+
+To deploy the contracts run the following:
+
+    npx hardhat run ./scripts/deploy.ts
+
+To test the contracts :
+
+    npx hardhat test
+
+To compile the contracts:
+
+    npx hardhat compile 
+
+You will need to copy the contracts abi's to blockchain shared in the front-end side
+
+For local deployment you will need hardhat running in the background so use the following command in a different terminal:
+
+    npx hardhat node
+
