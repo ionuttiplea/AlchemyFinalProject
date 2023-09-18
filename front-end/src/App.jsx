@@ -6,8 +6,9 @@ import { MedicPage } from "./MedicPage";
 import { User } from "./User";
 import { OwnerPage } from "./OwnerPage";
 
-const providerUrl = "http://127.0.0.1:8545/";
-const address = "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6";
+
+const providerUrl = process.env.REACT_APP_RPC_URL;
+const address = process.env.REACT_APP_DIAMOND_ADDRESS;
 
 const App = () => {
   const [errorMessage, setErrorMessage] = useState(null);
@@ -24,6 +25,7 @@ const App = () => {
   });
 
   useEffect(() => {
+
     if (account !== null) {
       checkIsMedic(account).then(
         res => {
@@ -79,7 +81,7 @@ const App = () => {
       ),
       account
     );
-
+        
     return isMedic;
   }
 

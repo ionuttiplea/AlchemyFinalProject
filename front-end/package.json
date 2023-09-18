@@ -4,6 +4,8 @@
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "webpack.config.js",
   "scripts": {
+    "dev": "webpack --config webpack.config.dev.js",
+    "build": "webpack --config webpack.config.build.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "react-scripts start"
   },
@@ -31,6 +33,9 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "dotenv": "^16.3.1",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
   }
 }

@@ -2,8 +2,8 @@ import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import abiOwnerOperationsFaucet from "./abi/OwnerOperationsFaucet.json";
 
-const providerUrl = "http://127.0.0.1:8545/";
-const address = "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6";
+const providerUrl = process.env.REACT_APP_RPC_URL;
+const address = process.env.REACT_APP_DIAMOND_ADDRESS;
 
 export const OwnerPage = (props) => {
     const account = props.account;

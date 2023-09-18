@@ -1,10 +1,19 @@
-import { ethers } from "hardhat";
 import { deployContracts } from "./deploymentUtils";
+import { JsonRpcProvider } from "@ethersproject/providers";
+
+const getRpcProvider = () : JsonRpcProvider => {
+  let provider: JsonRpcProvider;
+  const url = process.env.RPC_URL;
+
+  provider = new JsonRpcProvider(url);
+  
+  return provider;
+};
 
 async function main() {
-  const provider = new ethers.providers.JsonRpcProvider( "localhost" );
+  const provider = getRpcProvider();
   
-  deployContracts( provider );
+  await deployContracts( provider );
 }
 
 // We recommend this pattern to be able to use async/await everywhere

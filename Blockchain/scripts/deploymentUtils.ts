@@ -1,5 +1,5 @@
 import { ethers } from "hardhat";
-import { BaseProvider } from "@ethersproject/providers";
+import { BaseProvider, JsonRpcProvider } from "@ethersproject/providers";
 import { ContractTransaction, Wallet } from "ethers";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import myAbi from "../artifacts/contracts/faucets/OwnerOperationsFaucet.sol/OwnerOperationsFaucet.json";
@@ -77,7 +77,7 @@ export async function initContract(contractName, ethersProvider: BaseProvider = 
     const contract = await Contract.deploy(...constructorArgs, {});
 
     await contract.deployTransaction.wait();
-
+    
     //logAddress(networkName, contractName, contract.address);
     //logDeploymentParams(networkName, contractName, constructorArgs);
 
@@ -111,11 +111,13 @@ export async function deployContract(
   return contract;
 }
 
-export const deployContracts = async (ethersProvider: BaseProvider) => {
+export const deployContracts = async (ethersProvider: JsonRpcProvider) => {
   let deployedContracts: any = {};
-  signer = (await getSignersByNetwork(31337)).Owner;
-  console.log(signer);
+  const network = await ethersProvider.getNetwork();
   
+  signer = (await getSignersByNetwork(network.chainId, ethersProvider)).Owner;
+  console.log(signer);
+
   deployedContracts.DiamondLoupeFaucet = await initContract(ContractNames.DiamondLoupeFaucet, ethersProvider);
   deployedContracts.DiamondInitFaucet = await initContract(ContractNames.DiamondInitFaucet, ethersProvider);
 
@@ -131,7 +133,7 @@ export const deployContracts = async (ethersProvider: BaseProvider) => {
     ContractNames.OwnerOperationsFaucet,
     ethersProvider
   );
-
+  
   deployedContracts.PacientOperationsFaucet = await deployContract(
     ContractNames.PacientOperationsFaucet,
     [{
@@ -160,6 +162,17 @@ export const deployContracts = async (ethersProvider: BaseProvider) => {
     deployedContracts.MedicOperationsFaucet.address,
     deployedContracts.PacientOperationsFaucet.address
   );
+  
+  const prettyContracts = {
+    "DiamondLoupeFaucet" : deployedContracts.DiamondLoupeFaucet.address,
+    "DiamondInitFaucet" : deployedContracts.DiamondInitFaucet.address,
+    "AccessControlFaucet" : deployedContracts.AccessControlFaucet.address,
+    "OwnerOperationsFaucet" :  deployedContracts.OwnerOperationsFaucet.address,
+    "MedicOperationsFaucet" : deployedContracts.MedicOperationsFaucet.address,
+    "PacientOperationsFaucet" : deployedContracts.PacientOperationsFaucet.address,
+    "LibMedicalStorage" : deployedContracts.LibMedicalStorage.address,
+    "LibAccessControlStorage" : deployedContracts.LibAccessControlStorage.address
+  }
 
   deployedContracts[ContractNames.DiamondLoupeFaucet] = await ethers.getContractAt(
     ContractNames.DiamondLoupeFaucet,
@@ -199,8 +212,8 @@ export const deployContracts = async (ethersProvider: BaseProvider) => {
   // initialize ownership
   await tryCatchTransaction(await deployedContracts.OwnerOperationsFaucet.connect(signer).initializeOwnership());
 
-  await tryCatchTransaction(await deployedContracts.OwnerOperationsFaucet.connect(signer).
-    addMedic('0x70997970C51812dc3A010C7d01b50e0d17dc79C8')
-  );
+  prettyContracts[ContractNames.Diamond] = deployedContracts.Diamond.address;
+  console.log( prettyContracts );
+  
   return deployedContracts;
 }

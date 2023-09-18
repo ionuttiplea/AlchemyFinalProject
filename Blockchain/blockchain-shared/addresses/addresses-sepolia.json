@@ -1,0 +1,11 @@
+{
+    "DiamondLoupeFaucet": "0x5FEa62311534DC18AE794B769F4B9881Ea4ae1D4",
+    "DiamondInitFaucet": "0xA15a5d16ff738A78b476F8910325b01A03Af73B2",
+    "AccessControlFaucet": "0xdde45AB1Be297bC8b74e7F790B5343CF399c88d3",
+    "OwnerOperationsFaucet": "0x6AF8a56Aed455C108Ebe51EE9A189229e98f11D3",
+    "MedicOperationsFaucet": "0x73BeEBd70710c32F7663cB9d9E2f924B1ba4FC47",
+    "PacientOperationsFaucet": "0x172520613795Bb59D63EdFeAC74E5dFd9ee6dd85",
+    "LibMedicalStorage": "0xD29E9a8C3F158a7Ab96dc1351896E45eC89e071f",
+    "LibAccessControlStorage": "0xF96D2fb4fb411e19Fd22d71e531571Ca63030d02",
+    "Diamond": "0x385599F5eA4ace3Cc5d39006Cd874DEfBE127Ed2"
+  }

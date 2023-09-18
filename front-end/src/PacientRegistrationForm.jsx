@@ -2,8 +2,8 @@ import { ethers } from "ethers";
 import React, {useEffect, useState } from "react";
 import abiPacientOperationsFaucet from "./abi/PacientOperationsFaucet.json";
 
-const providerUrl = "http://127.0.0.1:8545/";
-const address = "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6";
+const providerUrl = process.env.REACT_APP_RPC_URL;
+const address = process.env.REACT_APP_DIAMOND_ADDRESS;
 
 export const PacientRegistrationForm = (props) => {
     const account = props.account;
@@ -22,9 +22,10 @@ export const PacientRegistrationForm = (props) => {
         event.preventDefault();
 
         if (username && window.ethereum) {
+            console.log( account );
             const provider = new ethers.providers.JsonRpcProvider(providerUrl);
             const contract = new ethers.Contract(address, abiPacientOperationsFaucet, provider);
-            const signer = await provider.getSigner( account );
+            const signer = await (new ethers.providers.Web3Provider(window.ethereum)).getSigner();
             const tx = await contract.connect(signer).register(
                 ethers.utils.keccak256( ethers.utils.toUtf8Bytes( username ) )
             );

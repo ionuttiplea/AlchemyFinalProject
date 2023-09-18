@@ -4,8 +4,8 @@ import abiAccessControl from "./abi/AccessControlFaucet.json";
 import { PacientRegistrationForm } from "./PacientRegistrationForm";
 import { PacientPage } from "./PacientPage";
 
-const providerUrl = "http://127.0.0.1:8545/";
-const address = "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6";
+const providerUrl = process.env.REACT_APP_RPC_URL;
+const address = process.env.REACT_APP_DIAMOND_ADDRESS;
 
 export const User = (props) => {
     const account = props.account;

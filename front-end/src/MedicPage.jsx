@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import abiMedicOperationsFaucet from "./abi/MedicOperationsFaucet.json";
 import { create } from "ipfs-http-client";
 
-const providerUrl = "http://127.0.0.1:8545/";
-const address = "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6";
+const providerUrl = process.env.REACT_APP_RPC_URL;
+const address = process.env.REACT_APP_DIAMOND_ADDRESS;
 
 const ipfs = create({
     port: "5001", headers: {
