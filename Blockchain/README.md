@@ -36,3 +36,4 @@ Then run :
 
 You can find the addresses of deployed contracts on sepolia in blockchain-shared/addresses.
 
+Make sure you configure .env

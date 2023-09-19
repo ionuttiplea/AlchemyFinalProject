@@ -15,3 +15,5 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 For uploading the document as a medic you would also need IPFS running on port 5001( hardcoded :/)
 Make sure to configure access control for the IPFS properly to allow localhost:3000 to make calls to it
+
+Make sure you configure .env
