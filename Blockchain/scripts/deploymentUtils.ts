@@ -113,9 +113,16 @@ export async function deployContract(
 
 export const deployContracts = async (ethersProvider: JsonRpcProvider) => {
   let deployedContracts: any = {};
-  const network = await ethersProvider.getNetwork();
+  if ( process.env.ENV=== 'local') {
+    console.log("here");
+    
+    signer = (await getSignersByNetwork(31337, ethersProvider)).Owner;
+  } else {
+    const network = await ethersProvider.getNetwork();
+    signer = (await getSignersByNetwork(network.chainId, ethersProvider)).Owner;
+  }
   
-  signer = (await getSignersByNetwork(network.chainId, ethersProvider)).Owner;
+  
   console.log(signer);
 
   deployedContracts.DiamondLoupeFaucet = await initContract(ContractNames.DiamondLoupeFaucet, ethersProvider);

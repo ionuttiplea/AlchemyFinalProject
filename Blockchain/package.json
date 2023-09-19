@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "deploy:local": "npx hardhat run ./scripts/deploy.ts",
+    "deploy:local": "npx hardhat run ./scripts/deploy.ts --network localhost",
     "deploy:sepolia": "npx hardhat run ./scripts/deploy.ts --network sepolia",
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "npx hardhat run ./scripts/server.ts"
