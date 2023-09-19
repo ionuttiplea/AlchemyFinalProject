@@ -24,9 +24,15 @@ To compile the contracts:
 
     npx hardhat compile 
 
-You will need to copy the contracts abi's to blockchain shared in the front-end side
+You will need to copy the contracts abi's to blockchain shared in the front-end side( I did this already so they are up and going).
 
 For local deployment you will need hardhat running in the background so use the following command in a different terminal:
 
     npx hardhat node
+
+Then run : 
+
+    npm run deploy:local
+
+You can find the addresses of deployed contracts on sepolia in blockchain-shared/addresses.
 
