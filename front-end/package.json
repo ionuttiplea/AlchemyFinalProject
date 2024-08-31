@@ -1,24 +1,50 @@
 {
-  "name": "front-end",
-  "version": "1.0.0",
-  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
-  "main": "webpack.config.js",
-  "scripts": {
-    "dev": "webpack --config webpack.config.dev.js",
-    "build": "webpack --config webpack.config.build.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "react-scripts start"
-  },
-  "author": "",
-  "license": "ISC",
+  "name": "Secure Health Portal Web3 App",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "@chakra-ui/react": "^2.4.6",
-    "@mui/material": "^5.14.8",
-    "ethers": "^5.7.1",
-    "ipfs-http-client": "^53.0.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "^5.0.1"
+    "@craco/craco": "^7.1.0",
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
+    "@ethersproject/providers": "^5.7.2",
+    "@mui/icons-material": "^5.16.6",
+    "@mui/material": "^5.16.6",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.18.104",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@typescript-eslint/eslint-plugin": "^5.9.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "buffer": "^6.0.3",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jsx-a11y": "^6.9.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-react": "^7.35.0",
+    "ethers": "^6.13.2",
+    "ipfs-http-client": "^60.0.1",
+    "prettier": "^3.3.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-scripts eject",
+    "typechain": "typechain --target ethers-v6 --out-dir ./src/types ./src/abi/*.json"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "browserslist": {
     "production": [
@@ -34,8 +60,15 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "dotenv": "^16.3.1",
-    "webpack": "^5.88.2",
-    "webpack-cli": "^5.1.4"
+    "@typechain/ethers-v6": "^0.5.1",
+    "customize-cra": "^1.0.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "react-app-rewired": "^2.2.1",
+    "source-map-loader": "^5.0.0",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths-webpack-plugin": "^4.1.0",
+    "typechain": "^8.3.2",
+    "typescript": "^4.9.5"
   }
 }

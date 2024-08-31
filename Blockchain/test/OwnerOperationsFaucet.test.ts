@@ -1,6 +1,6 @@
 import { ethers } from "hardhat";
-import { deployContracts } from "./deploymentUtils";
-import { getSignersByNetwork } from "./signers";
+import { deployContracts } from "../scripts/deploymentUtils";
+import { getSignersByNetwork } from "../scripts/signers";
 
 const { expect } = require("chai");
 

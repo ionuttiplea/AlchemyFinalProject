@@ -1,6 +1,7 @@
 import "@nomicfoundation/hardhat-chai-matchers";
 import "@nomiclabs/hardhat-etherscan";
 import "hardhat-abi-exporter";
+import "solidity-coverage";
 
 import * as dotenv from "dotenv";
 
@@ -13,7 +14,7 @@ module.exports = {
     sepolia: {
       url: process.env.RPC_URL,
       chainId: 11155111,
-      accounts : [process.env.OWNER_PK]
+      accounts: [process.env.OWNER_PK]
     },
   },
   solidity: {
@@ -41,5 +42,5 @@ module.exports = {
     apiKey: {
       sepolia: 'j_6o4saKlnIXehr3hsXa2Qg8G-s9NEb_'
     }
-  }
+  },
 };

@@ -77,9 +77,6 @@ export async function initContract(contractName, ethersProvider: BaseProvider = 
     const contract = await Contract.deploy(...constructorArgs, {});
 
     await contract.deployTransaction.wait();
-    
-    //logAddress(networkName, contractName, contract.address);
-    //logDeploymentParams(networkName, contractName, constructorArgs);
 
     return contract;
   } catch (err) {
@@ -100,10 +97,6 @@ export async function deployContract(
     const contractFactory = await initContractWithLibraries(contractName, libraries);
     contract = await contractFactory.deploy(...constructorArgs);
     await contract.deployTransaction.wait();
-
-    //   logAddress(networkName, contractName, contract.address);
-    //   logDeploymentParams(networkName, contractName, constructorArgs);
-
   } else {
     contract = initContract(contractName, ethersProvider, ...constructorArgs);
   }
@@ -113,17 +106,13 @@ export async function deployContract(
 
 export const deployContracts = async (ethersProvider: JsonRpcProvider) => {
   let deployedContracts: any = {};
-  if ( process.env.ENV=== 'local') {
-    console.log("here");
-    
+  if (process.env.ENV === 'local') {
     signer = (await getSignersByNetwork(31337, ethersProvider)).Owner;
   } else {
     const network = await ethersProvider.getNetwork();
     signer = (await getSignersByNetwork(network.chainId, ethersProvider)).Owner;
   }
-  
-  
-  console.log(signer);
+
 
   deployedContracts.DiamondLoupeFaucet = await initContract(ContractNames.DiamondLoupeFaucet, ethersProvider);
   deployedContracts.DiamondInitFaucet = await initContract(ContractNames.DiamondInitFaucet, ethersProvider);
@@ -140,7 +129,7 @@ export const deployContracts = async (ethersProvider: JsonRpcProvider) => {
     ContractNames.OwnerOperationsFaucet,
     ethersProvider
   );
-  
+
   deployedContracts.PacientOperationsFaucet = await deployContract(
     ContractNames.PacientOperationsFaucet,
     [{
@@ -169,16 +158,16 @@ export const deployContracts = async (ethersProvider: JsonRpcProvider) => {
     deployedContracts.MedicOperationsFaucet.address,
     deployedContracts.PacientOperationsFaucet.address
   );
-  
+
   const prettyContracts = {
-    "DiamondLoupeFaucet" : deployedContracts.DiamondLoupeFaucet.address,
-    "DiamondInitFaucet" : deployedContracts.DiamondInitFaucet.address,
-    "AccessControlFaucet" : deployedContracts.AccessControlFaucet.address,
-    "OwnerOperationsFaucet" :  deployedContracts.OwnerOperationsFaucet.address,
-    "MedicOperationsFaucet" : deployedContracts.MedicOperationsFaucet.address,
-    "PacientOperationsFaucet" : deployedContracts.PacientOperationsFaucet.address,
-    "LibMedicalStorage" : deployedContracts.LibMedicalStorage.address,
-    "LibAccessControlStorage" : deployedContracts.LibAccessControlStorage.address
+    "DiamondLoupeFaucet": deployedContracts.DiamondLoupeFaucet.address,
+    "DiamondInitFaucet": deployedContracts.DiamondInitFaucet.address,
+    "AccessControlFaucet": deployedContracts.AccessControlFaucet.address,
+    "OwnerOperationsFaucet": deployedContracts.OwnerOperationsFaucet.address,
+    "MedicOperationsFaucet": deployedContracts.MedicOperationsFaucet.address,
+    "PacientOperationsFaucet": deployedContracts.PacientOperationsFaucet.address,
+    "LibMedicalStorage": deployedContracts.LibMedicalStorage.address,
+    "LibAccessControlStorage": deployedContracts.LibAccessControlStorage.address
   }
 
   deployedContracts[ContractNames.DiamondLoupeFaucet] = await ethers.getContractAt(
@@ -214,13 +203,12 @@ export const deployContracts = async (ethersProvider: JsonRpcProvider) => {
     deployedContracts.Diamond.address
   );
 
-  console.log(deployedContracts.Diamond.address);
+  // console.log(deployedContracts.Diamond.address);
 
   // initialize ownership
   await tryCatchTransaction(await deployedContracts.OwnerOperationsFaucet.connect(signer).initializeOwnership());
 
   prettyContracts[ContractNames.Diamond] = deployedContracts.Diamond.address;
-  console.log( prettyContracts );
-  
+
   return deployedContracts;
 }
