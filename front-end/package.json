@@ -26,6 +26,7 @@
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.35.0",
     "ethers": "^6.13.2",
+    "file-type": "^19.4.1",
     "ipfs-http-client": "^60.0.1",
     "prettier": "^3.3.3",
     "react": "^18.3.1",

@@ -1,8 +1,8 @@
 import { ethers } from 'ethers';
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import abiMedicOperationsFaucet from '@abi/MedicOperationsFaucet.json';
 import { create as ipfsHttpClient } from 'ipfs-http-client';
-import MedicalReport from '@components/MedicalReport';
+import MedicalReport, { Patient } from '@components/MedicalReport';
 import {
   Typography,
   TextField,
@@ -23,7 +23,13 @@ import {
 } from './StyledComponents';
 
 import { MedicOperationsFaucet } from '../types';
-import { uploadData } from 'utils/fileUtils';
+import {
+  fetchFileFromIPFS,
+  triggerDownload,
+  getReportFileType,
+  uploadData,
+} from 'utils/fileUtils';
+import { MedicalReportType } from './PacientPage';
 
 const providerUrl = process.env.REACT_APP_RPC_URL as string;
 const address = process.env.REACT_APP_DIAMOND_ADDRESS as string;
@@ -43,8 +49,17 @@ interface MedicPageProps {
 export const MedicPage: React.FC<MedicPageProps> = () => {
   const [pacientName, setPacientName] = useState<string>('');
   const [reportCID, setReportCID] = useState<string>('');
-  const [reports, setReports] = useState<string[]>([]);
+  const [reports, setReports] = useState<MedicalReportType[]>([]);
   const [pdfData, setPdfData] = useState<File | null>(null);
+  const [showReportForm, setShowReportForm] = useState<boolean>(false);
+  const [reportData, setReportData] = useState<Patient>();
+
+  useEffect(() => {
+    if (!reportData) {
+      setShowReportForm(false);
+    }
+    return;
+  }, [reportData, pacientName]);
 
   const onFileLoad: InputProps['onChange'] = event => {
     const target = event.target as HTMLInputElement;
@@ -54,10 +69,17 @@ export const MedicPage: React.FC<MedicPageProps> = () => {
     }
   };
 
+  const doNothingSubmitHandle = (file: File | Buffer) => {
+    event?.preventDefault();
+    console.log(file);
+    return new Promise<void>(resolve => resolve);
+  };
+
   const fieldChanged = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     if (name === 'pacientName') {
       setPacientName(value);
+      setReportData(undefined);
     } else if (name === 'reportCID') {
       setReportCID(value);
       console.log(reportCID);
@@ -81,7 +103,17 @@ export const MedicPage: React.FC<MedicPageProps> = () => {
         ethers.keccak256(ethers.toUtf8Bytes(pacientName)),
       );
 
-    setReports(response as unknown as string[]);
+    const pacientReports: MedicalReportType[] = [];
+
+    for (const report of response) {
+      const type = await getReportFileType(ipfs, report[0]);
+      pacientReports.push({
+        cid: report[0],
+        type: type?.toString() ?? 'nothing',
+      });
+    }
+
+    setReports(pacientReports);
   };
 
   const medicalReportSubmitHandle = async (fileData: File | Buffer) => {
@@ -100,6 +132,24 @@ export const MedicPage: React.FC<MedicPageProps> = () => {
     }
 
     await medicalReportSubmitHandle(pdfData);
+  };
+
+  const handleReportClick = async (item: MedicalReportType) => {
+    const fileData = await fetchFileFromIPFS(ipfs, item.cid);
+    const textDecoder = new TextDecoder('utf-8');
+    const jsonString = textDecoder.decode(fileData);
+
+    if (item.type !== 'nothing') {
+      triggerDownload(fileData, item.cid);
+      setShowReportForm(false);
+    } else {
+      setShowReportForm(true);
+      try {
+        setReportData(JSON.parse(jsonString));
+      } catch (error) {
+        console.error(error);
+      }
+    }
   };
 
   return (
@@ -140,17 +190,47 @@ export const MedicPage: React.FC<MedicPageProps> = () => {
             </Typography>
             <List>
               {reports.map((item, index) => (
-                <ListItem key={index}>
-                  <ListItemText primary={`${index + 1}. ${item}`} />
+                <ListItem
+                  key={index}
+                  style={{
+                    marginBottom: '0.5rem',
+                    padding: '0.5rem',
+                    borderRadius: '5px',
+                    backgroundColor: '#f9f9f9',
+                    cursor: 'pointer',
+                    transition: 'background-color 0.3s',
+                  }}
+                  onClick={() => handleReportClick(item)}
+                  onMouseOver={e =>
+                    (e.currentTarget.style.backgroundColor = '#e0e0e0')
+                  }
+                  onMouseOut={e =>
+                    (e.currentTarget.style.backgroundColor = '#f9f9f9')
+                  }
+                >
+                  <ListItemText>{`Report ${index + 1}`} </ListItemText>
                 </ListItem>
               ))}
-            </List>
+            </List>{' '}
           </>
         )}
       </SecondContainer>
 
+      {showReportForm ? (
+        <MedicalReport
+          submitHandle={doNothingSubmitHandle}
+          readonly={true}
+          patientData={reportData}
+          headerString="This is the selected patient report"
+        />
+      ) : (
+        <></>
+      )}
       <Box sx={{ width: '100%', maxWidth: '600px', marginTop: 4 }}>
-        <MedicalReport submitHandle={medicalReportSubmitHandle} />
+        <MedicalReport
+          submitHandle={medicalReportSubmitHandle}
+          readonly={false}
+        />
       </Box>
     </Root>
   );

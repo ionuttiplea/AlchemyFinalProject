@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import './MedicalReport.css';
 import {
   Button,
@@ -12,7 +12,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { ReportContainer } from './StyledComponents';
 import { Buffer } from 'buffer';
 
-interface Patient {
+export interface Patient {
   name: string;
   age: string;
   gender: string;
@@ -30,22 +30,37 @@ interface Patient {
 
 interface MedicalReportProps {
   submitHandle: (filedata: File | Buffer) => Promise<void>;
+  readonly: boolean;
+  patientData?: Patient;
+  headerString?: string;
 }
 
-const MedicalReport: React.FC<MedicalReportProps> = ({ submitHandle }) => {
-  const [patient, setPatient] = useState<Patient>({
-    name: '',
-    age: '',
-    gender: '',
-    contact: '',
-    vitalSigns: {
-      heartRate: '',
-      bloodPressure: '',
-      temperature: '',
+const MedicalReport: React.FC<MedicalReportProps> = ({
+  submitHandle,
+  readonly,
+  patientData,
+  headerString,
+}) => {
+  const [patient, setPatient] = useState<Patient>(
+    patientData ?? {
+      name: '',
+      age: '',
+      gender: '',
+      contact: '',
+      vitalSigns: {
+        heartRate: '',
+        bloodPressure: '',
+        temperature: '',
+      },
+      medicalHistory: [''],
+      summary: '',
     },
-    medicalHistory: [''],
-    summary: '',
-  });
+  );
+
+  useEffect(() => {
+    setPatient(prevPatient => patientData ?? prevPatient);
+    return;
+  }, [patientData]);
 
   const [submitted, setSubmitted] = useState(false);
 
@@ -116,7 +131,7 @@ const MedicalReport: React.FC<MedicalReportProps> = ({ submitHandle }) => {
         <form onSubmit={handleSubmit}>
           <Box mb={4}>
             <Typography variant="h4" component="h1" align="center">
-              Or you can create a report in the following format
+              {headerString ?? 'Or you can complete the following form'}
             </Typography>
           </Box>
 
@@ -132,6 +147,9 @@ const MedicalReport: React.FC<MedicalReportProps> = ({ submitHandle }) => {
                 onChange={handleChange}
                 required
                 margin="normal"
+                InputProps={{
+                  readOnly: readonly, // Make the field read-only
+                }}
               />
               <TextField
                 label="Age"
@@ -141,6 +159,9 @@ const MedicalReport: React.FC<MedicalReportProps> = ({ submitHandle }) => {
                 onChange={handleChange}
                 required
                 margin="normal"
+                InputProps={{
+                  readOnly: readonly, // Make the field read-only
+                }}
               />
               <TextField
                 label="Gender"
@@ -149,6 +170,9 @@ const MedicalReport: React.FC<MedicalReportProps> = ({ submitHandle }) => {
                 onChange={handleChange}
                 required
                 margin="normal"
+                InputProps={{
+                  readOnly: readonly, // Make the field read-only
+                }}
               />
               <TextField
                 label="Contact"
@@ -157,6 +181,9 @@ const MedicalReport: React.FC<MedicalReportProps> = ({ submitHandle }) => {
                 onChange={handleChange}
                 required
                 margin="normal"
+                InputProps={{
+                  readOnly: readonly, // Make the field read-only
+                }}
               />
             </FormGroup>
           </Box>
@@ -174,6 +201,9 @@ const MedicalReport: React.FC<MedicalReportProps> = ({ submitHandle }) => {
                 onChange={handleChange}
                 required
                 margin="normal"
+                InputProps={{
+                  readOnly: readonly, // Make the field read-only
+                }}
               />
               <TextField
                 label="Blood Pressure"
@@ -182,6 +212,9 @@ const MedicalReport: React.FC<MedicalReportProps> = ({ submitHandle }) => {
                 onChange={handleChange}
                 required
                 margin="normal"
+                InputProps={{
+                  readOnly: readonly, // Make the field read-only
+                }}
               />
               <TextField
                 label="Temperature (°C)"
@@ -191,6 +224,9 @@ const MedicalReport: React.FC<MedicalReportProps> = ({ submitHandle }) => {
                 onChange={handleChange}
                 required
                 margin="normal"
+                InputProps={{
+                  readOnly: readonly, // Make the field read-only
+                }}
               />
             </FormGroup>
           </Box>
@@ -210,11 +246,18 @@ const MedicalReport: React.FC<MedicalReportProps> = ({ submitHandle }) => {
                   }
                   required
                   margin="normal"
+                  InputProps={{
+                    readOnly: readonly, // Make the field read-only
+                  }}
                 />
               ))}
-              <IconButton onClick={addMedicalHistory} color="primary">
-                <AddIcon />
-              </IconButton>
+              {readonly ? (
+                <></>
+              ) : (
+                <IconButton onClick={addMedicalHistory} color="primary">
+                  <AddIcon />
+                </IconButton>
+              )}
             </FormGroup>
           </Box>
 
@@ -232,12 +275,19 @@ const MedicalReport: React.FC<MedicalReportProps> = ({ submitHandle }) => {
               rows={4}
               fullWidth
               margin="normal"
+              InputProps={{
+                readOnly: readonly, // Make the field read-only
+              }}
             />
           </Box>
 
-          <Button type="submit" variant="contained" color="primary">
-            Submit
-          </Button>
+          {readonly ? (
+            <></>
+          ) : (
+            <Button type="submit" variant="contained" color="primary">
+              Submit
+            </Button>
+          )}
         </form>
       )}
     </ReportContainer>
