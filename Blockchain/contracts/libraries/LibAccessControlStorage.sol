@@ -21,7 +21,7 @@ library LibAccessControlStorage {
 	struct AccessControlStorage {
 		// OWNER_ROLE and MEDIC_ROLE
 		mapping(bytes32 => RoleData) _roles;
-		mapping(address => bool) _pacients;
+		mapping(address => string) _pacients;
 		bool _initialized;
 	}
 

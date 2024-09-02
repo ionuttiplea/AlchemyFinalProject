@@ -20,6 +20,6 @@ contract AccessControlFaucet is IAccessControl {
 	 */
 	function isUser(address caller) external view returns (bool) {
 		LibAccessControlStorage.AccessControlStorage storage s = LibAccessControlStorage.getStorage();
-		return s._pacients[caller];
+		return bytes(s._pacients[caller]).length != 0;
 	}
 }

@@ -47,6 +47,11 @@ describe("PacientOperationsFaucet", async function() {
             expect(reports[0].reportCID).to.equal(reportCID);
         });
 
+        it("Should revert if the pacient tries to retrieve another pacient reports", async function() {
+            await expect(contracts.PacientOperationsFaucet.connect(signers.Pacient1).getReportsFromMedic(signers.Medic1.address, pacientHash + "111"))
+                .to.be.revertedWith("27");
+        });
+
         it("Should return a list of medics associated with the pacient", async function() {
             const medics = await contracts.PacientOperationsFaucet.connect(signers.Pacient1).getMedics(pacientHash);
             expect(medics).to.include(signers.Medic1.address);

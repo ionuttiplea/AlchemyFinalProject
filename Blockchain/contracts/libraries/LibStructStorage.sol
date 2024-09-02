@@ -10,6 +10,7 @@ library LibStructStorage {
 	string public constant MEDIC_ALREADY_EXISTS = "24";
 	string public constant MEDIC_DOES_NOT_EXIST = "25";
 	string public constant PACIENT_ALREADY_EXISTS = "26";
+	string public constant PACIENT_HASH_ADDRESS_DO_NOT_MATCH= "27";
 
 	// Used by AccessControlFacet's OpenZeppelin Roles implementation
 	bytes32 public constant OWNER_ROLE = keccak256("OWNER");

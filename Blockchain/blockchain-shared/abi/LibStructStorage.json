@@ -92,6 +92,19 @@
   },
   {
     "inputs": [],
+    "name": "PACIENT_HASH_ADDRESS_DO_NOT_MATCH",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "SHOULD_BE_END_USER",
     "outputs": [
       {
